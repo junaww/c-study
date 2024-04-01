@@ -2,13 +2,19 @@
 #include <algorithm>
 using namespace std;
 
+/**
+*영소문자 + ' '로 이루어진 문자열 두개가 애너그램인지 아닌지 판별하는 함수
+*애너그램이란 크기순으로 정렬 했을 때 같은 문자열 ex) abbccde eabcbcd
+*arr의 index 0을 a라 생각하여 arr의 index 0 ~ 26에 a~z의 빈도수가 순서대로 저장되는 함수
+*/
+
 void anagram() {
     string a, b;
-    int arr_a[26] = { 0 }, arr_b[26] = { 0 }, result = 0;
+    int arr_a[26] = { 0 }, arr_b[26] = { 0 }, count = 0; 
     cin >> a >> b;
     for (char c : a) {
-        if (c != ' ') {
-            arr_a[int(c - 'a')]++;
+        if (c != ' ') {            // 공백과 영소문자로 이루어진 문자열이기에 공백이 아닐 경우 무조건 영소문자임을 이용해서 index값에 대응하는 영소문자가 있으면 arr[index]++;을 통해 빈도수를 1 더해줌
+            arr_a[int(c - 'a')]++; // 아스키 코드 a 값을 빼서 index[0]부터 차례대로 a에 대응되게 함
         }
     }
 
@@ -19,13 +25,13 @@ void anagram() {
     }
 
     for (int i = 0; i < 26; i++) {
-        if (arr_a[i] != arr_b[i]) {
-            result++;
+        if (arr_a[i] != arr_b[i]) {    // 두 배열이 일치하지 않으면 count 값이 증가, 0 값이 아니면 두 배열이 다른 부분이 있다는 것으로 간주
+            count++;
         }
     }
 
 
-    if (result == 0) {
+    if (count == 0) {
         cout << a << " & " << b << " are " << "anagrams." << endl;
     }
     else
@@ -39,15 +45,16 @@ int main() {
     cin >> n;
 
     for (int i = 0; i < n; i++) {
-        anagram();
+        anagram(); //함수 n번 반복
     }
 
 
     return 0;
 }
 // 실패 1. 아스키 합 and 소문자 갯수 비교로 풀려 했으나 
-//         아스키 1, 5 나 3, 3이나 합은 같기 때문에 무조건 개별 비교 해야함
-//         ex) ad, bc
+//         아스키코드로 int값으로 바뀐 값들의 합이 같은 경우 같은 애너그램으로 출력됨
+//         1, 5 나 3, 3이나 합은 같기 때문에 애너그램으로 출력됨 (ad, bc 입력 시 애너그램으로 나옴)
+//         unordered map도 써봤는데 컴파일 에러나서 가장 간단한 방법으로 돌림
 /*void anagram() {
     int sum_a = 0, sum_b = 0, count_a=0, count_b=0;
     string a, b;
